@@ -1,0 +1,40 @@
+syntax = "proto3";
+import "Common.proto";
+option java_multiple_files = true;
+package com.discover;
+
+enum GrpcDatabaseType {
+  POSTGRESQL = 0;
+  MYSQL = 1;
+}
+
+message CreateDatabaseOnDiscoverRequest {
+  int64 size = 1;
+  int32 dbId = 2;
+  string password = 3;
+  GrpcDatabaseType databaseType = 4;
+}
+
+message DatabaseOnDiscoverResponse {
+  string username = 1;
+  string databaseName = 2;
+  string location = 3;
+}
+
+message DatabaseLocationResponse {
+  string location = 1;
+}
+
+service ExternalDatabaseService {
+  rpc CreateDatabase(CreateDatabaseOnDiscoverRequest) returns (DatabaseOnDiscoverResponse);
+  rpc DropDatabase(com.common.DatabaseIdRequest) returns (com.common.ResponseResult);
+  rpc ResetDatabase(com.common.ResetDatabaseRequest) returns (DatabaseOnDiscoverResponse);
+  rpc UpdateDatabasePassword(com.common.UpdateDatabasePasswordRequest) returns (com.common.ResponseResult);
+  rpc UpdateDatabaseSize(com.common.UpdateDatabaseSizeRequest) returns (com.common.ResponseResult);
+  rpc SendQuery(com.common.SendQueryRequest) returns (com.common.SendQueryResponse);
+}
+
+service ExternalDatabaseServiceStats {
+  rpc GetDatabaseLocation(com.common.DatabaseIdRequest) returns (DatabaseLocationResponse);
+  rpc GetDatabaseStats(com.common.DatabaseIdRequest) returns (com.common.DatabaseStatsResponse);
+}
