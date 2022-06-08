@@ -9,21 +9,22 @@ message CreateDatabaseOnServerRequest {
   string password = 3;
 }
 
-message DatabaseOnServerResponse {
-  string username = 1;
-  string databaseName = 2;
+message DatabaseStatsOnServerResponse {
+  int64 currentSize = 1;
+  float fillPercent = 2;
+  string databaseAndUsername = 3;
+}
+
+message CreateDatabaseResponse {
+  string databaseAndUsername = 1;
 }
 
 service DatabaseServerService {
-  rpc CreateDatabase(CreateDatabaseOnServerRequest) returns (DatabaseOnServerResponse);
+  rpc CreateDatabase(CreateDatabaseOnServerRequest) returns (CreateDatabaseResponse);
   rpc DropDatabase(com.common.DatabaseIdRequest) returns (com.common.ResponseResult);
-  rpc ResetDatabase(com.common.ResetDatabaseRequest) returns (DatabaseOnServerResponse);
-  rpc UpdateDatabasePassword(com.common.UpdateDatabasePasswordRequest) returns (com.common.ResponseResult);
+  rpc ResetDatabase(com.common.DatabaseIdPasswordRequest) returns (CreateDatabaseResponse);
+  rpc UpdateDatabasePassword(com.common.DatabaseIdPasswordRequest) returns (com.common.ResponseResult);
   rpc UpdateDatabaseSize(com.common.UpdateDatabaseSizeRequest) returns (com.common.ResponseResult);
-  rpc GetDatabaseStats(com.common.DatabaseIdRequest) returns (com.common.DatabaseStatsResponse);
+  rpc GetDatabaseStats(com.common.DatabaseIdRequest) returns (DatabaseStatsOnServerResponse);
   rpc SendQuery(com.common.SendQueryRequest) returns (com.common.SendQueryResponse);
-}
-
-service DatabaseServerStatsService {
-  rpc GetServerStats(com.common.DatabaseIdRequest) returns (com.common.DatabaseStatsResponse);
 }

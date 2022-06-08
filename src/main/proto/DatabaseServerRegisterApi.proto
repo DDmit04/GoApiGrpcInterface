@@ -17,9 +17,8 @@ message DatabaseServerRegisterRequest {
 
 message DatabaseInfo {
   int32 dbId = 1;
-  string username = 2;
-  string dbName = 3;
-  int64 size = 4;
+  string databaseAndUsername = 2;
+  int64 size = 3;
 }
 
 service DatabaseServerRegisterService {

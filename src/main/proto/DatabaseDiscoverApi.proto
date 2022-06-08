@@ -15,26 +15,19 @@ message CreateDatabaseOnDiscoverRequest {
   GrpcDatabaseType databaseType = 4;
 }
 
-message DatabaseOnDiscoverResponse {
-  string username = 1;
-  string databaseName = 2;
+message DatabaseStatsResponse {
+  int64 currentSize = 1;
+  float fillPercent = 2;
   string location = 3;
-}
-
-message DatabaseLocationResponse {
-  string location = 1;
+  string databaseAndUsername = 4;
 }
 
 service ExternalDatabaseService {
-  rpc CreateDatabase(CreateDatabaseOnDiscoverRequest) returns (DatabaseOnDiscoverResponse);
+  rpc CreateDatabase(CreateDatabaseOnDiscoverRequest) returns (DatabaseStatsResponse);
   rpc DropDatabase(com.common.DatabaseIdRequest) returns (com.common.ResponseResult);
-  rpc ResetDatabase(com.common.ResetDatabaseRequest) returns (DatabaseOnDiscoverResponse);
-  rpc UpdateDatabasePassword(com.common.UpdateDatabasePasswordRequest) returns (com.common.ResponseResult);
+  rpc ResetDatabase(com.common.DatabaseIdPasswordRequest) returns (DatabaseStatsResponse);
+  rpc UpdateDatabasePassword(com.common.DatabaseIdPasswordRequest) returns (com.common.ResponseResult);
   rpc UpdateDatabaseSize(com.common.UpdateDatabaseSizeRequest) returns (com.common.ResponseResult);
   rpc SendQuery(com.common.SendQueryRequest) returns (com.common.SendQueryResponse);
-}
-
-service ExternalDatabaseServiceStats {
-  rpc GetDatabaseLocation(com.common.DatabaseIdRequest) returns (DatabaseLocationResponse);
-  rpc GetDatabaseStats(com.common.DatabaseIdRequest) returns (com.common.DatabaseStatsResponse);
+  rpc GetDatabaseStats(com.common.DatabaseIdRequest) returns (DatabaseStatsResponse);
 }
