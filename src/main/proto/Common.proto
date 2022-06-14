@@ -29,5 +29,10 @@ message SendQueryRequest {
   string query = 2;
 }
 
+message DatabaseIdConnectionsAllowRequest{
+  int32 dbId = 1;
+  bool allow = 2;
+}
+
 
 message Empty {}

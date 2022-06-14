@@ -23,6 +23,7 @@ service DatabaseServerService {
   rpc CreateDatabase(CreateDatabaseOnServerRequest) returns (CreateDatabaseResponse);
   rpc DropDatabase(com.common.DatabaseIdRequest) returns (com.common.ResponseResult);
   rpc ResetDatabase(com.common.DatabaseIdPasswordRequest) returns (CreateDatabaseResponse);
+  rpc UpdateDatabaseAllowConnections(com.common.DatabaseIdConnectionsAllowRequest) returns (com.common.ResponseResult);
   rpc UpdateDatabasePassword(com.common.DatabaseIdPasswordRequest) returns (com.common.ResponseResult);
   rpc UpdateDatabaseSize(com.common.UpdateDatabaseSizeRequest) returns (com.common.ResponseResult);
   rpc GetDatabaseStats(com.common.DatabaseIdRequest) returns (DatabaseStatsOnServerResponse);
